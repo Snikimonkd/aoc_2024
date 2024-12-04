@@ -55,52 +55,29 @@ first :: proc(v: [dynamic][dynamic]int) {
 	fmt.println("first is: ", c)
 }
 
-
-check_valid_2 :: proc(v: [dynamic]int) -> bool {
-	ok := true
-
-	if len(v) == 1 {
-		return true
-	}
-
-	broken := 0
-
-	left := 0
-	right := 1
-
-	// wtf
-	startDir := v[left] > v[right] ? Dir.Desc : Dir.Asc
-
-	for right < len(v) {
-		diff := max(v[left], v[right]) - min(v[left], v[right])
-		if diff == 0 || diff > 3 {
-			ok = false
-			break
-		}
-
-	}
-
-
-	//	currentDir := Dir.Asc
-	//	if v[left] > v[right] {
-	//		currentDir = Dir.Desc
-	//	}
-	//	if currentDir != startDir {
-	//		ok = false
-	//		break
-	//	}
-
-	return ok
-}
-
 second :: proc(v: [dynamic][dynamic]int) {
 	c := 0
 	for i := 0; i < len(v); i += 1 {
+		ok := check_valid(v[i])
+		if !ok {
+			for j := 0; j < len(v[i]); j += 1 {
+				if ok == true {
+					break
+				}
+
+				cp := make([dynamic]int, len(v[i]), cap(v[i]))
+				defer delete(cp)
+				copy(cp[:], v[i][:])
+				ordered_remove(&cp, j)
+
+				ok = check_valid(cp)
+			}
+		}
 
 		c += ok ? 1 : 0
 	}
 
-	fmt.println("first is: ", c)
+	fmt.println("second is: ", c)
 }
 
 main :: proc() {
@@ -111,6 +88,7 @@ main :: proc() {
 	}
 
 	v: [dynamic][dynamic]int = {}
+	defer delete(v)
 
 	for i := 0; i < len(lines); i += 1 {
 		if lines[i] == "" {
