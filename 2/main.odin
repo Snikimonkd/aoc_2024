@@ -81,7 +81,7 @@ second :: proc(v: [dynamic][dynamic]int) {
 }
 
 main :: proc() {
-	lines, err := utils.read_file("./inputs/2_in.txt")
+	lines, err := utils.read_file_lines("./inputs/2_in.txt")
 	if err != {} {
 		fmt.println("can't open file: %v", err)
 		os.exit(-1)

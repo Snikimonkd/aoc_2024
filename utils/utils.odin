@@ -16,7 +16,7 @@ Error :: union #shared_nil {
 Vector2 :: distinct [2]int
 Vector5 :: distinct [5]int
 
-read_file :: proc(filename: string) -> (lines: []string, err: Error) {
+read_file_lines :: proc(filename: string) -> (lines: []string, err: Error) {
 	buf := os.read_entire_file_from_filename_or_err(filename) or_return
 
 	str: string = string(buf)

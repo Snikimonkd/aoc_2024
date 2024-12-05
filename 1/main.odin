@@ -35,7 +35,7 @@ second :: proc(v: [dynamic]utils.Vector2) {
 }
 
 main :: proc() {
-	lines, err := utils.read_file("./inputs/1_in.txt")
+	lines, err := utils.read_file_lines("./inputs/1_in.txt")
 	if err != {} {
 		fmt.println("can't open file: %v", err)
 		os.exit(-1)
